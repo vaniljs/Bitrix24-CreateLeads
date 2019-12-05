@@ -1,0 +1,32 @@
+<meta charset="UTF-8">
+
+<form id="form" method="post" action="">
+    <input type="text" name="TITLE_CALLBACK" value="Заявка с сайта"><br>
+    <input type="text" name="EMAIL_CALLBACK" value="mail@yandex.ru"><br>
+    <input type="text" name="COMMENTS" value="lorem"><br>
+    <button type="submit">Отправить</button>
+</form>
+
+
+
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<script>
+    var object = {};
+    document.querySelector('button').addEventListener('click', (e) => {
+        e.preventDefault();
+        var formData = new FormData(document.forms.form);
+        formData.forEach(function (value, key) {
+            object[key] = value;
+        });
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'rest.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('param=' + JSON.stringify(object));
+        xhr.addEventListener("readystatechange", () => {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.response);
+            }
+        });
+    });
+</script>
